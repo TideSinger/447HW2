@@ -75,3 +75,11 @@ def update(id):
             return redirect(url_for('player.index'))
 
     return render_template('player/update.html', scores=player)
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+def delete(id):
+    get_player(id)
+    db = get_db()
+    db.execute('DELETE FROM scores WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('player.index'))
