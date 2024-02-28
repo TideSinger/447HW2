@@ -2,7 +2,31 @@
 
 {% block header %}
   <h1>{% block title %}Players{% endblock %}</h1>
-  {% if g.user %}
-    <a class="action" href="{{ url_for('player.create') }}">New</a>
-  {% endif %}
+    <a class="action" href="{{ url_for('scores.create') }}">Create New Player</a>
+
+  
+{% endblock %}
+{% block content %}
+<table> 
+  <thead> 
+  <tr> 
+      <th>ID</th> 
+      <th>Name</th>
+      <th>Points</th>
+      <th>Update</th>
+      <tr>Delete</tr>
+  </tr> 
+  </thead> 
+  <tbody> 
+      {% for row in scores %}  
+          <tr> 
+              <td>{{row[0]}}</td> 
+              <td>{{row[1]}}</td> 
+              <td>{{row[2]}}</td> 
+              <td></td>
+              <td></td>
+          </tr> 
+      {% endfor %} 
+  </tbody> 
+</table> 
 {% endblock %}

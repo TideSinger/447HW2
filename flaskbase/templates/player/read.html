@@ -1,0 +1,8 @@
+<form method="post">
+    <label for="plname">Update ID</label>
+    <input name="id" id="id" value="{{ request.form['id'] }}" required>
+    <input type="submit" value="Update">
+  </form>
+  <a class="action" href="{{ url_for('scores.read'), None,None,None,None, 12 }}">Read</a>
+  <a class="action" href="{{ url_for('scores.delete', 12) }}">Delete</a>
+  <a class="action" href="{{ url_for('scores.update'), 12 }}">Update</a>

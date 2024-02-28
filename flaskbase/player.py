@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, url_for
+    Blueprint, flash, g, redirect, render_template, url_for, request
 )
 
 from flaskbase.db import get_db
@@ -19,9 +19,12 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
+        pid = request.form['id']
+        plname = request.form['plname']
+        points = request.form['points']
         error = None
+        if get_player(pid) is not None:
+            abort(400,f"Player id {id} already exists.")
 
         if error is not None:
             flash(error)
@@ -30,33 +33,42 @@ def create():
             db.execute(
                 'INSERT INTO scores (id, plname, points)'
                 ' VALUES (?, ?, ?)',
-                (title, body, g.user['id'])
+                (pid, plname, points)
             )
             db.commit()
-            return redirect(url_for('player.index'))
+            return redirect(url_for('index'))
 
     return render_template('player/create.html')
 
+@bp.route('/<int:id>/read', methods=('GET', 'POST'))
+def read(id):
+    player = get_player(id)
+    if request.method == 'POST':
+        error = None
+
+    if error is not None:
+            flash(error)
+
+    return render_template('player/read.html', scores=player)
+
 def get_player(id):
-    post = get_db().execute(
-        'SELECT p.id, plname, points'
-        ' FROM player p JOIN plname u ON p.id = u.id'
+    player = get_db().execute(
+        'SELECT p.id, p.plname, p.points'
+        ' FROM scores p JOIN scores u ON p.id = u.id'
         ' WHERE p.id = ?',
         (id,)
     ).fetchone()
 
     if id is None:
-        abort(404, f"Post id {id} doesn't exist.")
+        abort(404, f"Player id {id} doesn't exist.")
 
-    return post
+    return player
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 def update(id):
     player = get_player(id)
 
     if request.method == 'POST':
-        #title = request.form['title']
-        #body = request.form['body']
         error = None
         plname = request.form['plname']
         points = request.form['points']

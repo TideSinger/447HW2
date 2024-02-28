@@ -6,11 +6,11 @@
 
 {% block content %}
   <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title"
-      value="{{ request.form['title'] or post['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
+    <label for="title">Name</label>
+    <input name="plname" id="plname"
+      value="{{ request.form['plname']}}" required>
+    <label for="body">Score</label>
+    <textarea name="points" id="points">{{ request.form['points']}}</textarea>
     <input type="submit" value="Save">
   </form>
   <hr>
@@ -18,3 +18,9 @@
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>
 {% endblock %}
+
+
+<form action="{{ url_for('scores.update') }}" method="post">
+  <input type="int" name="id">
+  <input type="submit">
+</form>
