@@ -64,7 +64,7 @@ def get_player(id):
 
     return player
 
-@bp.route('/<int:id>/update', methods=('GET', 'POST'))
+@bp.route('/<int:id>/update', methods=('POST',))
 def update(id):
     player = get_player(id)
 
@@ -94,4 +94,4 @@ def delete(id):
     db = get_db()
     db.execute('DELETE FROM scores WHERE id = ?', (id,))
     db.commit()
-    return redirect(url_for('player.index'))
+    return redirect('player/create.html')

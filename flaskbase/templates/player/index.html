@@ -14,7 +14,7 @@
       <th>Name</th>
       <th>Points</th>
       <th>Update</th>
-      <tr>Delete</tr>
+      <th>Delete</th>
   </tr> 
   </thead> 
   <tbody> 
@@ -23,8 +23,8 @@
               <td>{{row[0]}}</td> 
               <td>{{row[1]}}</td> 
               <td>{{row[2]}}</td> 
-              <td></td>
-              <td></td>
+              <td><a class="action" href="{{ url_for('scores.update', id=row[0]) }}">Update</a></td>
+              <td><a class="action" href="{{ url_for('scores.delete', id=row[0]) }}">Delete</a></td>
           </tr> 
       {% endfor %} 
   </tbody> 
